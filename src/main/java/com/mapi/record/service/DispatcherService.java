@@ -4,32 +4,30 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.mapi.record.bean.RequestData;
+import com.mapi.record.bean.ResponseData;
 import com.mapi.util.HttpUtil;
 
 @Service
 public class DispatcherService {
 
 	
-	public String sendRequest(String url,String method,String data,Map<String,String> headers){
+	public ResponseData sendRequest(RequestData requestData){
 		String resResult = null;
-		url = "http://flight-productservice.vip.elong.com" + url;
-		if("get".equals(method)){
-			try {
-				resResult = HttpUtil.sendGet(url, headers);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else if("post".equals(method)){
-			try {
-				resResult = HttpUtil.sendPostRequest("http://flight-productservice.vip.elong.com/order/detail", data, headers, 5000);
-				System.out.println(resResult);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		ResponseData responseData = null;
+		//url = "http://flight-productservice.vip.elong.com" + url;
+		String url = "http://flight.elong.com" + requestData.getUrl();
+		System.out.println("url: " + url);
+		System.out.println("requestdata:" + requestData.toString());
+		Map<String, String> headers = requestData.getHeaders();
+		headers.put("host", "flight.elong.com");
+		headers.remove("content-length");
+		try {
+			responseData = HttpUtil.sendAndGetData(url, requestData.getData(), headers, requestData.getMethod(), 5000);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		return resResult;
+		return responseData;
 	}
 }

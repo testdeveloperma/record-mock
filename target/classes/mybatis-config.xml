@@ -5,16 +5,16 @@
 <configuration>
 	<!-- 全局设置，支持驼峰命名法规则 -->
 	<settings>
-	<setting name="mapUnderscoreToCamelCase" value="true"/>	
+		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 	<!-- MyBatis 会在包名下面搜索需要的 Java Bean -->
-<!-- 	<typeAliases>
-	<package name="com.mcj.crud.bean"/>
-	</typeAliases> -->
+	<typeAliases>
+		<package name="com.mapi.record.bean" />
+	</typeAliases>
 	<!-- 分页插件 -->
 	<plugins>
 
-	<plugin interceptor="com.github.pagehelper.PageInterceptor">
-	</plugin>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+		</plugin>
 	</plugins>
 </configuration>
