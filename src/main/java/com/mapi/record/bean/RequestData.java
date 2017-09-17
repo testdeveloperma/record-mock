@@ -15,6 +15,8 @@ public class RequestData {
 
 	private String reqParam;  //请求参数
 	
+	private String queryString;	//get请求参数
+	
 	public String getUrl() {
 		return url;
 	}
@@ -55,11 +57,21 @@ public class RequestData {
 		this.reqParam = reqParam;
 	}
 
+
+	public String getQueryString() {
+		return queryString;
+	}
+
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
+
 	@Override
 	public String toString() {
 		return "RequestData [url=" + url + ", method=" + method + ", data=" + Arrays.toString(data) + ", headers="
-				+ headers + ", reqParam=" + reqParam + "]";
+				+ headers + ", reqParam=" + reqParam + ", queryString=" + queryString + "]";
 	}
+
 
 	
 	

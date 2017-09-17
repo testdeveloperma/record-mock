@@ -11,7 +11,7 @@
 	</insert>
 	<!--public RequestAndResponseData getData(); -->
 	<select id="getData" resultType="com.mapi.record.bean.RequestAndResponseData"> 
-	select id,url,method,request_param,request_header,response_result,response_code,reponse_header,case_id 
-	from http_data where case_id = #{caseId}
+	select id,url,method,request_param,request_header,response_result,response_code,response_header 
+	from http_data where url = #{url}
 	</select>
 </mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapi.record.dao.TestResultMapper">
+	<!-- public void addTestResult(TestResult testResult); -->
+	<insert id="addTestResult" parameterType="com.mapi.record.bean.TestResult">
+		insert into
+		test_result(result,url,expect,actual)
+		values(#{result},#{url},#{expect},#{actual})
+	</insert>
+	<!--public RequestAndResponseData getData(); -->
+	<!-- <select id="getData" resultType="com.mapi.record.bean.RequestAndResponseData">
+		select
+		id,url,method,request_param,request_header,response_result,response_code,reponse_header,case_id
+		from http_data where url = #{url}
+	</select> -->
+</mapper>

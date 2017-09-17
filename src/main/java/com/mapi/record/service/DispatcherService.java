@@ -17,6 +17,11 @@ public class DispatcherService {
 		ResponseData responseData = null;
 		//url = "http://flight-productservice.vip.elong.com" + url;
 		String url = "http://flight.elong.com" + requestData.getUrl();
+		
+		if(requestData.getQueryString() != null){
+			url = url + "?" + requestData.getQueryString();
+		}
+		
 		System.out.println("url: " + url);
 		System.out.println("requestdata:" + requestData.toString());
 		Map<String, String> headers = requestData.getHeaders();

@@ -25,14 +25,13 @@ public class HttpServletUtil {
 		 */
 		String url = request.getRequestURL().toString();// 方法返回客户端发出请求时的完整URL。
 		String queryString = request.getQueryString();// get请求参数
+		requestData.setQueryString(queryString);
 		System.out.println("URL: " + url + "; queryString: " + queryString);
 		String uri = request.getRequestURI(); // 返回请求行中的资源名部分。
-		System.out.println("uri:" + uri);
 
 		String method = request.getMethod();
 		requestData.setMethod(method);
-		System.out.println("method: " + method);
-
+		System.out.println(method);
 		/*
 		 * getHeader(string name)方法:String getHeaders(String name)方法:Enumeration
 		 * getHeaderNames()方法
@@ -50,17 +49,6 @@ public class HttpServletUtil {
 		requestData.setHeaders(headers);
 
 		System.out.println("============header结束=====================");
-
-		/*Map<String, String[]> parameterMap = request.getParameterMap();
-
-		System.out.println("parameterMap: " + parameterMap);
-		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-			String paramName = entry.getKey();
-			String paramValue = request.getParameter(paramName);
-
-			System.out.println(paramName + "==>" + paramValue);
-		}*/
 		byte[] dataByte = null;
 		// 获取post请求，body输入流
 		if ("POST".equals(method)) {
@@ -74,10 +62,9 @@ public class HttpServletUtil {
 				e1.printStackTrace();
 			}
 		} else if ("GET".equals(method)) {
-			uri = uri + "?" + queryString;
+			requestData.setReqParam(queryString);
 		}
 
-		// System.out.println("uri前奏 :" + uri);
 		requestData.setUrl(uri);
 		System.out.println("uri前奏 :" + requestData.getUrl());
 		return requestData;

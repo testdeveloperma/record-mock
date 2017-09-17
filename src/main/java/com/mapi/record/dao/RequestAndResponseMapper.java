@@ -6,6 +6,6 @@ public interface RequestAndResponseMapper {
 
 	public void addData(RequestAndResponseData requestAndResponseData);
 	
-	public RequestAndResponseData getData();
+	public RequestAndResponseData getData(String url);
 	
 }

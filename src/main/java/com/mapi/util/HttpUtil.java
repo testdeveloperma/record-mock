@@ -182,8 +182,8 @@ public class HttpUtil {
     				Header header = responseHeaders[i];
     				responseHeadersMap.put(header.getName(), header.getValue());
     			}
+                System.out.println("responseHeadersMap: " + responseHeadersMap);
             responseData.setHeaders(responseHeadersMap);
-        //    System.out.println("responseHeaders: " + responseHeaders);
             responseData.setResponseStream(getPostData(in));
             return responseData;
         } catch (Exception e) {

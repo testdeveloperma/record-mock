@@ -1,5 +1,6 @@
 package com.mapi.record.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class RequestAndResponseService {
 
 	@Autowired
 	RequestAndResponseMapper requestAndResponseMapper;
-	
-	public void add(RequestData requestData,RequestAndResponseData requestAndResponseData) {
+
+	public void add(RequestData requestData, RequestAndResponseData requestAndResponseData) {
 
 		requestAndResponseData.setMethod(requestData.getMethod());
 		requestAndResponseData.setReqParam(requestData.getReqParam());
@@ -26,24 +27,40 @@ public class RequestAndResponseService {
 		requestAndResponseData.setRequestHeader(JSON.toJSONString(requestHeaders));
 
 		requestAndResponseData.setUrl(requestData.getUrl());
-		
-		
+
 		requestAndResponseMapper.addData(requestAndResponseData);
-		
+
 	}
-	
-	
-	public ResponseData getResponse(int case_id,String url){
+
+	public RequestAndResponseData getRequestAndResponseData(String url) {
 		ResponseData responseData = new ResponseData();
-		
-		RequestAndResponseData requestAndResponseData = requestAndResponseMapper.getData();
-		Map<String,String> headers = (Map<String, String>) JSON.parse(requestAndResponseData.getResponseHeader());
-		
-		
+
+		RequestAndResponseData requestAndResponseData = requestAndResponseMapper.getData(url);
+		String reqParam = requestAndResponseData.getReqParam();
+
+		Map<String, String> headers = (Map<String, String>) JSON.parse(requestAndResponseData.getResponseHeader());
+
 		responseData.setHeaders(headers);
-		responseData.setStatusCode(requestAndResponseData.getResposeCode());		
+		responseData.setStatusCode(requestAndResponseData.getResposeCode());
 		responseData.setResponseStream(requestAndResponseData.getResponseResult().getBytes());
+
+		return requestAndResponseData;
+	}
+
+	public ResponseData getResponseData(RequestAndResponseData requestAndResponseData) {
 		
+		ResponseData responseData = new ResponseData();
+		Map<String, String> headers = (Map<String, String>) JSON.parse(requestAndResponseData.getResponseHeader());
+
+		responseData.setHeaders(headers);
+		responseData.setStatusCode(requestAndResponseData.getResposeCode());
+		try {
+			responseData.setResponseStream(requestAndResponseData.getResponseResult().getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(responseData.toString());
 		return responseData;
 	}
 
