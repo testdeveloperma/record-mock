@@ -1,20 +1,16 @@
-##ignore this file##
-/target/ 
+target/* 
 .classpath
 .project
-.settings      
- ##filter databfile、sln file##
+.settings/*      
  *.mdb  
  *.ldb  
  *.sln    
- ##class file##
  *.com  
  *.class  
  *.dll  
  *.exe  
  *.o  
  *.so  
- # compression file
  *.7z  
  *.dmg  
  *.gz  
