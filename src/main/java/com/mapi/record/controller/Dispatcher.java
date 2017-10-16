@@ -11,8 +11,11 @@ import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.mapi.record.bean.Msg;
 import com.mapi.record.bean.RequestAndResponseData;
 import com.mapi.record.bean.RequestData;
 import com.mapi.record.bean.ResponseData;
@@ -25,6 +28,8 @@ import com.mapi.util.HttpServletUtil;
 @Controller
 public class Dispatcher {
 
+	static boolean record = false;
+	
 	@Autowired
 	DispatcherService dispatcherService;
 
@@ -34,10 +39,18 @@ public class Dispatcher {
 	@Autowired
 	TestResultService testResultService;
 	
+	@RequestMapping(value="setMode")
+	@ResponseBody
+	public Msg setMode(@RequestParam(name="mode") boolean mode){
+		record = mode;
+		System.out.println("收到" + mode);
+		return Msg.success();
+	}
+	
 	@RequestMapping(value = "**")
 	public void dispathcher(HttpServletRequest request, HttpServletResponse response) {
-		boolean record = false;
-		Integer case_id = 0;
+		
+		
 		ResponseData responseData = new ResponseData();
 		RequestData requestData = HttpServletUtil.getRequestData(request);
 		String expect = null;
