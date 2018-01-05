@@ -15,8 +15,10 @@ public class DispatcherService {
 	public ResponseData sendRequest(RequestData requestData){
 		String resResult = null;
 		ResponseData responseData = null;
+		Map<String, String> headers = requestData.getHeaders();
 		//url = "http://flight-productservice.vip.elong.com" + url;
-		String url = "http://flight.elong.com" + requestData.getUrl();
+		String host = headers.get("host");
+		String url = "http://" + host + requestData.getUrl();
 		
 		if(requestData.getQueryString() != null){
 			url = url + "?" + requestData.getQueryString();
@@ -24,9 +26,10 @@ public class DispatcherService {
 		
 		System.out.println("url: " + url);
 		System.out.println("requestdata:" + requestData.toString());
-		Map<String, String> headers = requestData.getHeaders();
-		headers.put("host", "flight.elong.com");
-		headers.remove("content-length");
+		
+		System.out.println("headers:" + headers.toString());
+//		headers.put("host", "flight.elong.com");
+//		headers.remove("content-length");
 		try {
 			responseData = HttpUtil.sendAndGetData(url, requestData.getData(), headers, requestData.getMethod(), 5000);
 		} catch (Exception e) {

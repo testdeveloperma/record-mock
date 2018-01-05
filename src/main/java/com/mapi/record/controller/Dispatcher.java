@@ -28,7 +28,7 @@ import com.mapi.util.HttpServletUtil;
 @Controller
 public class Dispatcher {
 
-	static boolean record = false;
+	static boolean record = true;
 	
 	@Autowired
 	DispatcherService dispatcherService;
