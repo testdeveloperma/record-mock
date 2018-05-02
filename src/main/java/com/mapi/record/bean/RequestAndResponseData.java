@@ -17,6 +17,7 @@ public class RequestAndResponseData {
 	
 	private int responseCode;  // ÏìÓ¦×´Ì¬Âë
 
+	private Integer sresultId;  //½¡×³ÐÔ²âÊÔ±¨¸æid
 	public String getUrl() {
 		return url;
 	}
@@ -73,11 +74,20 @@ public class RequestAndResponseData {
 		this.responseCode = resposeCode;
 	}
 
+
+	public Integer getSresultId() {
+		return sresultId;
+	}
+
+	public void setSresultId(Integer sresultId) {
+		this.sresultId = sresultId;
+	}
+
 	@Override
 	public String toString() {
 		return "RequestAndResponseData [url=" + url + ", method=" + method + ", requestHeader=" + requestHeader
-				+ ", reqParam=" + requestParam + ", responseResult=" + responseResult + ", responseHeader=" + responseHeader
-				+ ", resposeCode=" + responseCode + "]";
+				+ ", requestParam=" + requestParam + ", responseResult=" + responseResult + ", responseHeader="
+				+ responseHeader + ", responseCode=" + responseCode + ", sresultId=" + sresultId + "]";
 	}
 	
 	

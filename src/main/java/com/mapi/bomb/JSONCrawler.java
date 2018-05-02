@@ -48,6 +48,11 @@ public class JSONCrawler {
 		// System.out.println("parseObject status:" + parseObject.getStatus());
 	}
 
+	public static JSONCrawler getInstance(){
+		return new JSONCrawler();
+	}
+	
+	
 	/**
 	 * ±éÀújson ¶ÔÏó
 	 * 
@@ -110,14 +115,12 @@ public class JSONCrawler {
 		for (Object object : parseArray) {
 
 			if (object instanceof JSONObject) {
-				System.out.println("-------------->" + object.toString());
 				JSONObject parseJson = parseJson(object.toString());
 				l.add(parseJson);
 			} else if (object instanceof JSONArray) {
 				parseJsonArray((Entry<String, Object>) object);
 			} else {
 				Object[] jsonArrayToArray = jsonArrayToArray(parseArray);
-				System.out.println("simple:" + jsonArrayToArray.getClass().getSimpleName());
 				changeData(entry, null, jsonArrayToArray, jsonArrayToArray.getClass().getSimpleName());
 				
 				break;
@@ -130,7 +133,6 @@ public class JSONCrawler {
 	public Object[] jsonArrayToArray(JSONArray parseArray) {
 		String simpleName = parseArray.get(0).getClass().getSimpleName();
 
-		System.out.println(simpleName);
 		switch (simpleName) {
 		case "BigDecimal":
 			BigDecimal[] bd = new BigDecimal[parseArray.size()];

@@ -17,19 +17,24 @@ public class DispatcherService {
 		ResponseData responseData = null;
 		Map<String, String> headers = requestData.getHeaders();
 		//url = "http://flight-productservice.vip.elong.com" + url;
+		String url;
 		String host = headers.get("host");
-		String url = "http://" + host + requestData.getUrl();
+		host = "mobile-api2011.elong.com";
+		System.out.println("host:--------->" + host);
+		if(host.equals("localhost"))
+			url = "http://flight-productservice.vip.elong.com" + requestData.getUrl();
+		else
+			url = "http://" + host + requestData.getUrl();
 		
 		if(requestData.getQueryString() != null){
 			url = url + "?" + requestData.getQueryString();
 		}
 		
 		System.out.println("url: " + url);
-		System.out.println("requestdata:" + requestData.toString());
 		
-		System.out.println("headers:" + headers.toString());
-//		headers.put("host", "flight.elong.com");
-//		headers.remove("content-length");
+		headers.put("host", host);
+		headers.remove("content-length");
+		headers.remove("compress");
 		try {
 			responseData = HttpUtil.sendAndGetData(url, requestData.getData(), headers, requestData.getMethod(), 5000);
 		} catch (Exception e) {

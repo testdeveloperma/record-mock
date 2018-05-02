@@ -7,6 +7,7 @@ public class TypeChange {
 
 	/**
 	 * 类型转换，包括String 和 BigDecimal,不包含boolean
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -15,40 +16,38 @@ public class TypeChange {
 
 		switch (classType) {
 		case "Long":
-			return longToDouble((Long)value);
-			
+			return longToDouble((Long) value);
+
 		case "Integer":
 
-			return integerToDouble((Integer)value);
+			return integerToDouble((Integer) value);
 		case "Short":
 
-			return shortToDouble((Short)value);
+			return shortToDouble((Short) value);
 
 		case "Byte":
 
-			return byteToDouble((Byte)value);
+			return byteToDouble((Byte) value);
 		case "Float":
 
-			return floatToString((Float)value);
+			return floatToString((Float) value);
 		case "Double":
-			
-			return doubleToString((Double)value);
+
+			return doubleToString((Double) value);
 		case "String":
 
-			return ((String)value).toCharArray();
+			return ((String) value).toCharArray();
 		case "Character":
 
-			return charToInt((char)value);
+			return charToInt((char) value);
 		case "BigDecimal":
 
-			return bigdecimalToString((BigDecimal)value);
+			return bigdecimalToString((BigDecimal) value);
 
 		default:
 			return null;
 		}
-		
 
-		
 	}
 
 	public static String intToString(Integer value) {
@@ -120,15 +119,13 @@ public class TypeChange {
 		char a = 4;
 		double c = a;
 		System.out.println(c);
-		
-		
+
 		String ss = "就像";
 		char[] charArray = ss.toCharArray();
 		System.out.println(charArray.getClass().getSimpleName());
-		
-		
+
 		Character cj = 2;
-		Object cha = charToInt((char)cj);
+		Object cha = charToInt((char) cj);
 		Object changeType = changeType(cj);
 		System.out.println(changeType + ":" + changeType.getClass().getSimpleName());
 	}

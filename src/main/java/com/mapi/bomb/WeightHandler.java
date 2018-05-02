@@ -18,7 +18,7 @@ public class WeightHandler {
 		HashMap<Object, Integer> weightmap = getWeight();
 		
 		
-ArrayList<HashMap<String, Comparable>> choiceList=new ArrayList<HashMap<String, Comparable>>(); //选择器列表，剔除不需要选择的选项，权重为0，不进选择列表。转变权重为上下限值。
+		ArrayList<HashMap<String, Comparable>> choiceList=new ArrayList<HashMap<String, Comparable>>(); //选择器列表，剔除不需要选择的选项，权重为0，不进选择列表。转变权重为上下限值。
         
         Integer minR=0,maxR=-1;    //上下限
         for(Map.Entry<Object, Integer> temp:weightmap.entrySet()){

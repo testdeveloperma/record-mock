@@ -3,15 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapi.record.dao.RequestAndResponseMapper">
+	
 	<!-- public void addData(RequestAndResponseData requestAndResponseData); -->
 	<insert id="addData" parameterType="com.mapi.record.bean.RequestAndResponseData">
 		insert into
-		http_data(method,url,request_param,request_header,response_result,response_code,response_header)
-		values(#{method},#{url},#{requestParam},#{requestHeader},#{responseResult},#{responseCode},#{responseHeader})
+		http_data(method,url,request_param,response_result,response_code,response_header,sresult_id)
+		values(#{method},#{url},#{requestParam},#{responseResult},#{responseCode},#{responseHeader},#{sresultId})
 	</insert>
 	<!--public RequestAndResponseData getData(); -->
-	<select id="getData" resultType="com.mapi.record.bean.RequestAndResponseData"> 
-	select id,url,method,request_param,request_header,response_result,response_code,response_header 
-	from http_data where url = #{url}
+	<select id="getData"  parameterType="Map" resultType="com.mapi.record.bean.RequestAndResponseData"> 
+	select id,url,method,request_param,request_header,response_result,response_code,response_header,sresult_id
+	from http_data where url = #{url} and sresult_id = #{resultId}
 	</select>
 </mapper>

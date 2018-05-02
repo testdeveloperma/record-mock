@@ -1,5 +1,6 @@
 package com.mapi.record.bean;
 
+
 public class Task {
 
 	private Integer id;

@@ -1,7 +1,5 @@
 package com.mapi.record.controller;
 
-import static org.mockito.Matchers.booleanThat;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +17,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.elong.mobile.commons.utils.compress.CompressUtil;
 import com.elong.mobile.commons.utils.compress.CompressUtil.CompressType;
+import com.elong.mobile.servitization.compress.CompressChainHandler;
+import com.elong.mobile.servitization.embedder.immobile.ImmobileRequest;
+import com.elong.mobile.servitization.embedder.immobile.ImmobileResponse;
+import com.elong.mobile.servitization.embedder.immobile.impl.ImmobileRequestHttpImpl;
+import com.elong.mobile.servitization.embedder.immobile.impl.ImmobileResponseHttpImpl;
 import com.mapi.bomb.JSONCrawler;
 import com.mapi.record.bean.Msg;
 import com.mapi.record.bean.RequestAndResponseData;
@@ -31,15 +34,12 @@ import com.mapi.record.service.TestResultService;
 import com.mapi.record.service.WhiteListService;
 import com.mapi.util.HttpServletUtil;
 import com.mapi.util.JsonUtil;
-import com.test.mobile.redis.SingleValueRedis;
 
 @Controller
-public class Dispatcher {
+public class Dispatcher3 {
 
 	static boolean record = true;
 
-	SingleValueRedis singleValueRedis = SingleValueRedis.getInstance();
-	
 	@Autowired
 	DispatcherService dispatcherService;
 
@@ -52,7 +52,7 @@ public class Dispatcher {
 	@Autowired
 	WhiteListService whiteListService;
 
-	@RequestMapping(value = "setMode")
+	@RequestMapping(value = "setMode666")
 	@ResponseBody
 	public Msg setMode(@RequestParam(name = "mode") boolean mode) {
 		record = mode;
@@ -60,41 +60,34 @@ public class Dispatcher {
 		return Msg.success();
 	}
 
-	@RequestMapping(value = "**")
+	@RequestMapping(value = "sdd")
 	public void dispathcher(HttpServletRequest request, HttpServletResponse response) {
 
 		ResponseData responseData = new ResponseData();
 		RequestData requestData = HttpServletUtil.getRequestData(request);
-		boolean isplayback = singleValueRedis.getPlaybackSwitch();
+		
+		String expect = null;
 
-		if (isplayback) {
-			Integer resultIdToPlayback = singleValueRedis.getResultIdToPlayback();
-			if(resultIdToPlayback != null){
-				RequestAndResponseData requestAndResponseData = requestAndResponseService
-						.getRequestAndResponseData(requestData.getUrl(),resultIdToPlayback);
-				if(requestAndResponseData != null)
-					responseData = requestAndResponseService.getResponseData(requestAndResponseData);
-				else
-					responseData = dispatcherService.sendRequest(requestData);
-			}
-			
-		} else {
-			
+		if (record) {
 			responseData = dispatcherService.sendRequest(requestData);
-		}
-		String responseResult = response(response, request, responseData, requestData,isplayback);
 
-		if (isplayback) {
-			
 		} else {
-/*			testResultService.add(getTestResult(requestData, expect));
-*/		
+			/*RequestAndResponseData requestAndResponseData = requestAndResponseService
+					.getRequestAndResponseData(requestData.getUrl());
+			responseData = requestAndResponseService.getResponseData(requestAndResponseData);
+			expect = requestAndResponseData.getReqParam();*/
+		}
+		String responseResult = response(response, request, responseData, requestData);
+
+		if (record) {
 			RequestAndResponseData rarData = new RequestAndResponseData();
 
 			rarData.setResponseResult(responseResult);
 			rarData.setResponseHeader(JSON.toJSONString(responseData.getHeaders()));
 			rarData.setResposeCode(responseData.getStatusCode());
-			requestAndResponseService.add(requestData, rarData);	
+			requestAndResponseService.add(requestData, rarData);
+		} else {
+			testResultService.add(getTestResult(requestData, expect));
 		}
 	}
 
@@ -119,7 +112,7 @@ public class Dispatcher {
 	}
 
 	private String response(HttpServletResponse response, HttpServletRequest request, ResponseData responseData,
-			RequestData requestData,boolean isplayback) {
+			RequestData requestData) {
 		int resposeCode = responseData.getStatusCode();
 		response.setStatus(resposeCode);
 
@@ -137,15 +130,18 @@ public class Dispatcher {
 
 			responseResult = new String(responseData.getResponseStream(), "UTF-8");
 
+			System.out.println("responseResult-------->" + responseResult);
 			List<String> pathList = whiteListService.getPath();
-			// 非回放模式下，并且 url 不再白名单中，则破坏返回数据
-			if (!isplayback && pathList.size() > 0 && JsonUtil.isGoodJson(responseResult)
-					&& !pathList.contains(requestData.getUrl())) {
-
-				JSONObject parseJson = JSONCrawler.getInstance().parseJson(responseResult);
-				responseResult = JSON.toJSONString(parseJson);
-			}
+			// url 不再白名单中，则破坏返回数据
+//			if (pathList.size() > 0 && JsonUtil.isGoodJson(responseResult)
+//					&& !pathList.contains(requestData.getUrl())) {
+//
+//				JSONObject parseJson = JSONCrawler.getInstance().parseJson(responseResult);
+//				responseResult = JSON.toJSONString(parseJson);
+//				System.out.println("最终结果---------------:" + responseResult);
+//			}
 			String compress = request.getHeader("compress");
+			System.out.println("compress:" + compress);
 			if (compress != null && !compress.equalsIgnoreCase("none") && !compress.equals("")) {
 				CompressType ct = CompressType.GZP;;
 				if(compress.equalsIgnoreCase("gzip")){
