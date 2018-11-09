@@ -19,12 +19,8 @@ public class DispatcherService {
 		//url = "http://flight-productservice.vip.elong.com" + url;
 		String url;
 		String host = headers.get("host");
-		host = "mobile-api2011.elong.com";
-		System.out.println("host:--------->" + host);
-		if(host.equals("localhost"))
-			url = "http://flight-productservice.vip.elong.com" + requestData.getUrl();
-		else
-			url = "http://" + host + requestData.getUrl();
+		host = "mobile.test.com";
+		url = "http://" + host + requestData.getUrl();
 		
 		if(requestData.getQueryString() != null){
 			url = url + "?" + requestData.getQueryString();
